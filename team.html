@@ -1,0 +1,659 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Team</title>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Open+Sans");
+        * {
+            box-sizing: border-box !important;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 12px !important;
+            height: 10px;
+            background-color: #ffffff;
+            border-top: 1px solid #090909;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background-color: #1a1a1a;
+            height: 5px;
+        }
+        
+        h2 {
+            text-transform: uppercase;
+            font-weight: 100;
+            letter-spacing: 50px;
+            float: left;
+            text-align: center;
+            width: 100%;
+        }
+        
+        #projectsApp {
+            width: 100%;
+            float: left;
+        }
+        
+        .projects {
+            width: 23%;
+            float: left;
+            min-height: 50px;
+            height: 50px;
+            position: relative;
+            background-size: cover;
+            cursor: pointer;
+            margin: 10px 1% 10px 1%;
+            overflow: hidden;
+            transition: all 0.5s ease, opacity 0.1s;
+            -webkit-transition: all 0.5s ease, opacity 0.1s;
+            border-left: 0.1px solid rgb(182, 182, 182);
+        }
+        
+        .projects.shrunk {
+            pointer-events: none;
+            height: 0px !important;
+            overflow: hidden;
+            width: 0px !important;
+            padding: 0px;
+            transition: all 0.9s ease;
+            -webkit-transition: all 0.9s ease;
+        }
+        
+        .projects.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 1s ease;
+            -webkit-transition: all 1s ease;
+        }
+        
+        .projects .backArrow {
+            display: none;
+        }
+        
+        .projects.midTransition {
+            width: 100% !important;
+            min-height: 100% !important;
+            position: fixed;
+            z-index: 100;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: 0px;
+        }
+        
+        .projects.openedProject {
+            width: 40px !important;
+            height: 100% !important;
+            min-height: 100%;
+            position: fixed;
+            margin: 0px;
+            top: 0;
+            left: 0;
+            transition: all 0.5s ease;
+            -webkit-transition: all 0.5s ease;
+            z-index: 100;
+        }
+        
+        .projects.openedProject .backArrow {
+            display: block;
+            position: absolute;
+            float: left;
+            font-size: 30pt;
+            color: #fff;
+            width: 100%;
+            float: left;
+            text-align: center;
+            margin: 0px;
+            top: 45%;
+            transition: all 0.2s ease;
+            -webkit-transition: all 0.2s ease;
+        }
+        
+        .projects.openedProject .info {
+            background: rgba(55, 55, 55, 0.9) !important;
+            transition: all 0.2s ease;
+            -webkit-transition: all 0.2s ease;
+        }
+        
+        .projects.openedProject:hover .info {
+            background: rgba(55, 55, 55, 0.7) !important;
+        }
+        
+        .projects.openedProject:hover .backArrow {
+            transform: scale(1.2);
+        }
+        
+        .projects:nth-child(1),
+        .projects:nth-child(2) {
+            width: 48%;
+        }
+        
+        .projects .beforeTitle {
+            float: left;
+            opacity: 1;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 10px 5px 10px 5px;
+            font-weight: 100;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.5s ease;
+            -webkit-transition: all 0.5s ease;
+            position: absolute;
+            width: 90%;
+            text-align: center;
+            top: 45%;
+            margin: 0px 5% 0px 5%;
+        }
+        
+        .projects.openedProject .beforeTitle,
+        .projects.openedProject h1,
+        .projects.openedProject hr {
+            display: none;
+        }
+        
+        .projects.openedProject .info {
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            margin-top: 0;
+            margin-left: 0px;
+            border-radius: 000px;
+            opacity: 1;
+            background: rgba(1, 154, 109, 0.8);
+        }
+        
+        .projects:hover .beforeTitle,
+        .projects.midTransition .beforeTitle {
+            opacity: 0;
+            transition: all 0.5s ease;
+            -webkit-transition: all 0.5s ease;
+        }
+        
+        .projects:hover .info,
+        .projects.midTransition .info {
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            margin-top: 0;
+            margin-left: 0px;
+            border-radius: 000px;
+            opacity: 1;
+            background: rgba(1, 154, 109, 0.8);
+        }
+        
+        .projects:hover .info h1,
+        .projects.midTransition .info h1 {
+            opacity: 1;
+            transform: translate(0%, 0);
+            -webkit-transform: translate(0%, 0);
+        }
+        
+        .projects:hover .info hr,
+        .projects.midTransition .info hr {
+            width: 70%;
+            margin: 0px 15% 0px 15%;
+            left: 0px;
+            opacity: 1;
+        }
+        
+        .projects .info {
+            width: 50px;
+            height: 50px;
+            left: 50%;
+            top: 50%;
+            margin-left: -25px;
+            margin-top: -25px;
+            float: left;
+            opacity: 0;
+            position: absolute;
+            background: rgba(1, 154, 109, 0);
+            overflow: hidden;
+            transition: all 0.2s ease, opacity 0.1s;
+            -webkit-transition: all 0.2s ease, opacity 0.1s;
+            transition-delay: 0.1s;
+            -webkit-transition-delay: 0.1s;
+        }
+        
+        .projects .info .fadeTitle {
+            float: left;
+            width: 100%;
+            color: #fff;
+            font-weight: 100;
+            text-transform: uppercase;
+            font-size: 12pt;
+            text-align: center;
+            letter-spacing: 5px;
+            position: absolute;
+            margin: 0px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
+            padding: 0px 10px 5px 10px;
+            top: 45%;
+            transform: translate(0%, -25px);
+            -webkit-transform: translate(0%, -25px);
+            transition-delay: 0.4s;
+            -webkit-transition-delay: 0.4s;
+        }
+        
+        .projects .info hr {
+            outline: none;
+            height: 3px;
+            border: 0px;
+            float: left;
+            background-color: #fff;
+            width: 2px;
+            left: 50%;
+            margin-left: -1px;
+            opacity: 0;
+            position: absolute;
+            top: 53%;
+            transition: all 0.4s ease;
+            -webkit-transition: all 0.4s ease;
+            transition-delay: 0.5s;
+            -webkit-transition-delay: 0.5s;
+        }
+        
+        .selectedArea {
+            width: 100%;
+            min-height: 00%;
+            max-height: 0px;
+            float: left;
+            background: #fff;
+            position: absolute;
+            z-index: 10;
+            padding: 0px 0px 0px 40px;
+            opacity: 0;
+            pointer-events: none;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            transition: all 0.0s ease;
+            -webkit-transition: all 0.0s ease;
+        }
+        
+        .selectedArea.opened {
+            opacity: 1;
+            pointer-events: all;
+            min-height: 100%;
+            max-height: 100000%;
+        }
+        
+        .selectedArea.opened .copyArea.fadeIn,
+        .selectedArea.opened h1 span,
+        .selectedArea.opened h1 {
+            opacity: 1;
+            -webkit-transform: translate(0px, 0%);
+            transform: translate(0px, 0%);
+        }
+        
+        .selectedArea:after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.5);
+            background: red;
+            /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0.6) 10%, white 90%);
+            /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(right, rgba(255, 255, 255, 0.6) 10%, white 90%);
+            /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(right, rrgba(255, 255, 255, 0.6) 10%, white 90%);
+            /* For Firefox 3.6 to 15 */
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 10%, white 90%);
+            /* Standard syntax */
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .selectedArea h1 {
+            float: left;
+            width: 100%;
+            margin: 0px;
+            padding: 80px 5px 80px 5px;
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            font-size: 28pt;
+            text-transform: uppercase;
+            font-weight: 100;
+            letter-spacing: 5px;
+            color: #1a1a1a;
+            opacity: 0;
+            transition: all 0.2s ease;
+            -webkit-transition: all 0.2s ease;
+        }
+        
+        .selectedArea h1 span {
+            background: #fff;
+            padding: 10px 80px 10px 80px;
+            text-align: center;
+            opacity: 0;
+            -webkit-transform: translate(0%, -100%);
+            transform: translate(0%, -100%);
+            transition: all 0.8s ease;
+            -webkit-transition: all 0.8s ease;
+        }
+        
+        .selectedArea .copyArea.fadeIn {
+            width: 880px;
+            float: left;
+            position: relative;
+            left: 50%;
+            margin-left: -450px;
+            padding: 10px 25px 10px 25px;
+            margin-top: 15px;
+            margin-bottom: 85px;
+            opacity: 0;
+            -webkit-transform: translate(0%, 100%);
+            transform: translate(0%, 100%);
+            transition: all 0.8s ease;
+            -webkit-transition: all 0.8s ease;
+            transition-delay: 0.2s;
+            -webkit-transition-delay: 0.2s;
+        }
+        
+        .selectedArea .copyArea.fadeIn p {
+            float: left;
+            width: 100%;
+            font-size: 12pt;
+            line-height: 24pt;
+            letter-spacing: 1px;
+            font-weight: 100;
+            color: #2a2a2a;
+        }
+        
+        .noTransition {
+            transition: all 0.0s ease !important;
+            -webkit-transition: all 0.0s ease !important;
+            transition-delay: 0.0s !important;
+            -webkit-transition-delay: 0.0s !important;
+        }
+        
+        @media screen and (max-width: 920px) {
+            .projects {
+                width: 48%;
+            }
+            .projects hr {
+                top: 60% !important;
+            }
+            .projects:nth-child(1),
+            .projects:nth-child(2) {
+                width: 48%;
+            }
+            .projects:nth-child(1) hr,
+            .projects:nth-child(2) hr {
+                top: 53% !important;
+            }
+            .selectedArea .copyArea.fadeIn {
+                width: 100%;
+                margin-left: 0%;
+                left: 0%;
+            }
+            .selectedArea h1 {
+                font-size: 20pt;
+            }
+            .selectedArea h1 span {
+                padding: 10px 25px 10px 25px;
+            }
+        }
+        
+        @media screen and (max-width: 620px) {
+            .projects {
+                width: 98% !important;
+            }
+            .projects hr {
+                top: 55% !important;
+            }
+            .projects:nth-child(1),
+            .projects:nth-child(2) {
+                width: 48%;
+            }
+            .projects:nth-child(1) hr,
+            .projects:nth-child(2) hr {
+                top: 55% !important;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <h2>Who We Are</h2>
+
+    <div id="projectsApp">
+
+        <div class="projects" :id="project.ID" v-for="project in projects" :style="{ backgroundImage: 'url(' + project.bImage + ')' }" v-on:click="selectProjects(project.ID)">
+            <h3 class="beforeTitle"> {{ project.category }}</h3>
+            <div class="info">
+                <h1 class="fadeTitle"> {{ project.category }}</h1>
+                <hr>
+            </div>
+            <p class="backArrow"><i class="fa fa-angle-double-left" aria-hidden="true"></i></p>
+        </div>
+
+        <div class="selectedArea">
+            <h1 :style="{ backgroundImage: 'url(' + highlightedContent.bImage + ')' }"><span>{{ highlightedContent.category }}</span></h1>
+            <div v-html="highlightedContent.copy" class="copyArea fadeIn"></div>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+
+
+
+    <script>
+        var isSelected = false;
+        const myProjects = [{
+            ID: "-webDesign",
+            category: "Web Design",
+            bImage: "/test/imgs/1.jpg",
+            copy: `<p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p><p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac su
+    scipit ante purus, auctor nec iaculis libero leo i</p><p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p><p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p>`
+        }, {
+            ID: "-graphicDesign",
+            category: "Graphic Design",
+            bImage: "/test/imgs/2.jpg",
+            copy: "<p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p>"
+        }, {
+            ID: "-photography",
+            category: "Photography",
+            bImage: "/test/imgs/3.jpg",
+            copy: "<p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p>"
+        }, {
+            ID: "-brandDevelopment",
+            category: "Branding",
+            bImage: "/test/imgs/4.jpg",
+            copy: "<p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p>"
+        }, {
+            ID: "-htmlEmails",
+            category: "HTML Emails",
+            bImage: "/test/imgs/5.jpg",
+            copy: "<p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p>"
+        }, {
+            ID: "-wordPress",
+            category: "WordPress",
+            bImage: "/test/imgs/6.jpg",
+            copy: "<p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p>"
+        }, {
+            ID: "-another1",
+            category: "HTML Emails",
+            bImage: "/test/imgs/7.jpg",
+            copy: "<p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p>"
+        }, {
+            ID: "-another2",
+            category: "HTML Emails",
+            bImage: "/test/imgs/8.jpg",
+            copy: "<p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p>"
+        }, {
+            ID: "-another3",
+            category: "HTML Emails",
+            bImage: "/test/imgs/9.jpg",
+            copy: "<p>Lorem ipsum dolor sit amet, vehicula ullamco vel nullam, non vulputate purus sit vel est, egestas nec a.</p> <p>Curabitur rutrum, pellentesque ipsum hendrerit. Nulla eu. In ipsum ac ultrices eget pretium, dictum velit a. Arcu aliquam nunc consectetuer. Mauris quisque interdum integer mauris fusce. Quam tellus molestie lobortis at diam, ut ac suscipit ante purus, auctor nec iaculis libero leo i</p>"
+        }];
+
+        var theHighlightedContent = {
+            ID: "",
+            category: "",
+            bImage: "",
+            copy: ""
+        };
+        var selectedProject;
+        var scrollBackTo;
+
+        var app = new Vue({
+            el: "#projectsApp",
+            data() {
+                return {
+                    projects: myProjects,
+                    highlightedContent: theHighlightedContent
+                };
+            },
+            methods: {
+                selectProjects: function(thisId) {
+                    var self = "#" + thisId;
+                    if ($(self).hasClass("openedProject")) {
+                        isSelected = false;
+
+                        if ($(self).hasClass('noTransition')) {
+                            var timeoutA = 0;
+                            var timeoutB = 0;
+                            var timeoutC = 0;
+                        } else {
+                            var timeoutA = 800;
+                            var timeoutB = 1200;
+                            var timeoutC = 1600;
+                        }
+
+
+
+                        $(self).addClass("midTransition");
+                        $(self).removeClass("openedProject");
+
+
+
+
+                        setTimeout(function() {
+
+                            $(self).removeClass("midTransition");
+                            $(".selectedArea").removeClass("opened");
+
+                        }, timeoutA);
+
+                        setTimeout(function() {
+                            $("#projectsApp .projects").removeClass("hidden");
+                            $("#projectsApp .projects").removeClass("shrunk");
+                        }, timeoutB);
+                        setTimeout(function() {
+                            // window.scrollTo(0, scrollBackTo);
+                            $("html, body").animate({
+                                scrollTop: scrollBackTo
+                            }, 500);
+                            $(self).addClass('noTransition');
+                        }, timeoutC);
+
+                    } else {
+                        isSelected = true;
+                        scrollBackTo = $(self).offset().top;
+
+                        if ($(self).hasClass('noTransition')) {
+                            $(".selectedArea").addClass("noTransition");
+                            $(".copyArea.fadeIn").addClass("noTransition");
+                            var timeoutD = 0;
+                        } else {
+                            $(".selectedArea").removeClass("noTransition");
+                            $(".copyArea.fadeIn").removeClass("noTransition");
+                            var timeoutD = 800;
+                        }
+
+                        $(self).addClass("midTransition");
+                        $("#projectsApp .projects").addClass("hidden");
+                        $(self).removeClass("hidden");
+
+                        setTimeout(function() {
+                            $(".selectedArea").addClass("opened");
+                            $(self).addClass("openedProject");
+                            $(self).removeClass("midTransition");
+                            $("#projectsApp .projects").addClass("shrunk");
+
+                            $(self).removeClass("shrunk");
+
+                            window.scrollTo(0, 0);
+
+
+                        }, timeoutD);
+                    }
+
+                    for (var i = 0; i < this.projects.length; i++) {
+                        if (thisId == this.projects[i].ID) {
+                            this.highlightedContent = this.projects[i];
+                        }
+                    }
+                }
+            }
+        });
+
+        $(document).ready(function() {
+            resizeProjectDivs();
+            // resizeProjectDivs();
+        });
+        var resizeTimer;
+        $(window).on("resize", function(e) {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                if (isSelected == false) {
+                    resizeProjectDivs();
+                }
+            }, 250);
+        });
+
+        function resizeProjectDivs() {
+            var midRange = false;
+            var smallRange = false;
+            var winWidth = $(window).width();
+            if (winWidth < 920 && 620 < winWidth) {
+                midRange = true;
+            }
+            if (winWidth < 720) {
+                smallRange = true;
+            }
+            var i = 0;
+
+            $("#projectsApp .projects").each(function() {
+                var pWidth = $(this).width();
+                var pHeight;
+                if (i < 2) {
+                    pHeight = pWidth;
+                } else {
+                    if (midRange == true) {
+                        pHeight = pWidth * 0.5;
+                    } else if (smallRange == true) {
+                        pHeight = pWidth;
+                    } else {
+                        pHeight = pWidth * 1.5;
+                    }
+                }
+                $(this).css("height", pHeight + "px");
+                i++;
+            });
+        }
+    </script>
+
+</body>
+
+
+
+</html>
